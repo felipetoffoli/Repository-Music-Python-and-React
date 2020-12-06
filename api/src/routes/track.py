@@ -1,4 +1,6 @@
 from flask_restplus import Namespace, Resource, fields
+from flask import  Response
+import os
 
 route = Namespace('tracks', description='Rota de que lida com as musicas que estão nas pastas de track')
 
@@ -30,3 +32,18 @@ class TrackInfo(Resource):
     def get(self, info_file):
         '''informação da track'''
         return {'name': 'musica1.mp3', 'size': '18MB', 'time': '01:15'}
+
+
+@route.route("/play")
+class PlayMp3(Resource):
+    @route.doc('play')
+    def get(self):
+        def generate():
+            with open(os.getcwd()+ "/src/tracks/synthetic.mp3", "rb") as fwav:
+                data = fwav.read(1024)
+                while data:
+                    yield data
+                    data = fwav.read(1024)
+
+        return Response(generate(), mimetype="audio/mp3")
+        

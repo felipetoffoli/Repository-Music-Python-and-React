@@ -1,6 +1,8 @@
 from flask_restplus import Namespace, Resource, fields
-from flask import  Response
+from flask import  Response, request
 import os
+# from src.handler.tracksHandler import TracksHandler
+
 
 route = Namespace('tracks', description='Rota de que lida com as musicas que estão nas pastas de track')
 
@@ -14,6 +16,9 @@ DTO_INFO_FILE_TRACK = route.model('Track Information', {
     'time': fields.String(required=False, description='Tempo de duração da musica'),
     'size': fields.String(required=True, description='Tamanho do arquivo de musica'),
 })
+
+# DTO_SEND_TRACK = route.model('Track Information', {
+# })
 
 
 @route.route('/')
@@ -46,4 +51,11 @@ class PlayMp3(Resource):
                     data = fwav.read(1024)
 
         return Response(generate(), mimetype="audio/mp3")
+        
+@route.route("/")
+class PlayMp3(Resource):
+    @route.doc('send_files')
+    def post(self):
+        pass
+    #    return TracksHandler().send()
         

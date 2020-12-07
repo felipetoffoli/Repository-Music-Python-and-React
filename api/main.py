@@ -14,8 +14,8 @@ CORS(app, support_credentials=True)
 @app.shell_context_processor
 def shell_context():
     return dict( 
-        app=app,
-        db=db,
+         app=app,
+         db=db,
         **MODELS
         )
 

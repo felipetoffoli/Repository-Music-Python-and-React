@@ -1,7 +1,7 @@
 from flask_restplus import Namespace, Resource, fields
 from flask import  Response, request
 import os
-# from src.handler.tracksHandler import TracksHandler
+
 
 
 route = Namespace('tracks', description='Rota de que lida com as musicas que estão nas pastas de track')
@@ -56,6 +56,6 @@ class PlayMp3(Resource):
 class PlayMp3(Resource):
     @route.doc('send_files')
     def post(self):
-        pass
-    #    return TracksHandler().send()
+        from src.handler.tracksHandler import TracksHandler
+        return TracksHandler().send()
         

@@ -39,18 +39,12 @@ class TrackInfo(Resource):
         return {'name': 'musica1.mp3', 'size': '18MB', 'time': '01:15'}
 
 
-@route.route("/play")
+@route.route("/play/<_id>")
 class PlayMp3(Resource):
     @route.doc('play')
-    def get(self):
-        def generate():
-            with open(os.getcwd()+ "/src/tracks/synthetic.mp3", "rb") as fwav:
-                data = fwav.read(1024)
-                while data:
-                    yield data
-                    data = fwav.read(1024)
-
-        return Response(generate(), mimetype="audio/mp3")
+    def get(self, _id):
+        from src.handler.tracksHandler import TracksHandler
+        return TracksHandler().play(_id)
         
 @route.route("/")
 class PlayMp3(Resource):

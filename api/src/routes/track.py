@@ -24,10 +24,10 @@ DTO_INFO_FILE_TRACK = route.model('Track Information', {
 @route.route('/')
 class TrackList(Resource):
     @route.doc('list_tracks')
-    @route.marshal_list_with(DTO_TRACK_LIST)
     def get(self):
         '''List all tracks'''
-        return [{'name': 'musica1.mp3'}, {'name': 'musica2.mp3'}]
+        from src.handler.tracksHandler import TracksHandler
+        return TracksHandler().get_paginate()
 
 
 @route.route('/<info_file>')

@@ -14,6 +14,26 @@ class TracksHandler:
     def __init__(self):
         pass
 
+    def __parse_int_or_value_default(self, data, value_default=1):
+        if data and data.isnumeric():
+            return int(data)
+        return value_default
+
+    def get_paginate(self):
+        try:
+            params = request.args
+            page = self.__parse_int_or_value_default(params.get('page'))
+            limit = self.__parse_int_or_value_default(params.get('limit'), 10)
+            repository = TrackRepository()
+            paginate = dict(page=page, per_page=limit)
+            
+            return repository.get_paginate(paginate)
+        except Exception as e:
+            return ResultModel('Erro ao acessar o banco de dados.', False, True, str(e)).to_dict(), 500
+
+  
+        
+
     def play(self, _id):
         contract = PlayTrackContract()
         if not(contract.validate(_id)):
@@ -22,7 +42,7 @@ class TracksHandler:
         _id = int(_id)
         track_result = repository.get_by_id(dict(id=_id))
         if track_result.get('error') or track_result.get('exeption'):
-            return track_result, 400
+            return track_result, 406
         track = track_result['data']['result']
         filename = track.get('filename')
         def generate():
@@ -48,7 +68,6 @@ class TracksHandler:
         file = request.files['file']
         file.save(abisolute_path)
         file_size = os.stat(abisolute_path).st_size
-
         repository = TrackRepository()
         data_insert = {'filename': new_filename, 'name': name, 'size': file_size}
         result = repository.insert(data_insert)

@@ -1,27 +1,36 @@
-from flask_restplus import Namespace, Resource, fields
+from flask_restplus import Namespace, Resource
 
 
 route = Namespace('tracks', description='Rota de que lida com as musicas que estão nas pastas de track')
 
-DTO_TRACK_LIST = route.model('Track', {
-    'name': fields.String(required=True, description='Nome do arquivo de musica')
-})
+DOC_SEND = route.parser()
+DOC_SEND.add_argument('name', type=str, help='Nome da musica.', location='form')
+DOC_SEND.add_argument('file', type=bytes, help='Arquivo MP3.', location='files')
 
+DOC_SEARCH = route.parser()
+DOC_SEARCH.add_argument('search', required=True, location='json', help='Exemplo de corpo: {"search" : "tic"}')
+DOC_LIST = route.parser()
 
-DTO_INFO_FILE_TRACK = route.model('Track Information', {
-    'name': fields.String(required=True, description='Nome do arquivo de musica'),
-    'time': fields.String(required=False, description='Tempo de duração da musica'),
-    'size': fields.String(required=True, description='Tamanho do arquivo de musica'),
-})
+DOC_LIST.add_argument('page',  location='args', type=str)
+DOC_LIST.add_argument('limit',  location='args', type=str)
 
-
-@route.route('/')
+@route.route('/list')
 class TrackList(Resource):
     @route.doc('list_tracks')
+    @route.expect(DOC_LIST)
     def get(self):
         '''List all tracks'''
         from src.handler.tracksHandler import TracksHandler
         return TracksHandler().get_paginate()
+
+@route.route('/search')
+class TrackList(Resource):
+    @route.doc('search')
+    @route.expect(DOC_SEARCH)
+    def post(self):
+        '''Search tracks'''
+        from src.handler.tracksHandler import TracksHandler
+        return TracksHandler().get_by_like_name_paginate()
 
 
 @route.route("/play/<_id>")
@@ -34,6 +43,7 @@ class PlayMp3(Resource):
 @route.route("/")
 class PlayMp3(Resource):
     @route.doc('send_files')
+    @route.expect(DOC_SEND)
     def post(self):
         from src.handler.tracksHandler import TracksHandler
         return TracksHandler().send()

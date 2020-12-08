@@ -24,6 +24,21 @@ class TrackRepository:
             )
         data = marshal(tracks.items, TRACK_DTO)
         return ResultModel('Pesquisa realizada com sucesso.', data, False).to_dict(data_paginate)
+    
+    def get_by_like_name_paginate(self, playload, paginate):
+        name = playload.get('search')
+        search = '%{}%'.format(name)
+        tracks = Track.query.filter(Track.name.like(search)).paginate(**paginate)
+        data_paginate = marshal(tracks, PAGINATE )
+        data_paginate = dict(
+            page=data_paginate.get('page'),
+            pages=data_paginate.get('pages'),
+            total=data_paginate.get('total'),
+            limit=data_paginate.get('per_page'),
+            prev_num=data_paginate.get('prev_num'),
+            )
+        data = marshal(tracks.items, TRACK_DTO)
+        return ResultModel('Pesquisa realizada com sucesso.', data, False).to_dict(data_paginate)
 
     def get_by_id(self, playload):
         try:

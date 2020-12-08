@@ -1,3 +1,4 @@
+from src.contract.tracks.getByLikeNameTrackContract import GetByLikeNameTrackContract
 from src.contract.tracks.playTrackContract import PlayTrackContract
 from src import contract
 from flask import request
@@ -26,8 +27,23 @@ class TracksHandler:
             limit = self.__parse_int_or_value_default(params.get('limit'), 10)
             repository = TrackRepository()
             paginate = dict(page=page, per_page=limit)
-            
             return repository.get_paginate(paginate)
+        except Exception as e:
+            return ResultModel('Erro ao acessar o banco de dados.', False, True, str(e)).to_dict(), 500
+
+  
+    def get_by_like_name_paginate(self):
+        try:
+            playload = request.json
+            contract = GetByLikeNameTrackContract()
+            if not(contract.validate(playload)):
+                return ResultModel('Problema nos parametros enviados.', False, contract.errors).to_dict(), 406
+            params = request.args
+            page = self.__parse_int_or_value_default(params.get('page'))
+            limit = self.__parse_int_or_value_default(params.get('limit'), 10)
+            repository = TrackRepository()
+            paginate = dict(page=page, per_page=limit)
+            return repository.get_by_like_name_paginate(playload, paginate)
         except Exception as e:
             return ResultModel('Erro ao acessar o banco de dados.', False, True, str(e)).to_dict(), 500
 

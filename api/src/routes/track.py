@@ -8,9 +8,9 @@ DOC_SEND.add_argument('name', type=str, help='Nome da musica.', location='form')
 DOC_SEND.add_argument('file', type=bytes, help='Arquivo MP3.', location='files')
 
 DOC_SEARCH = route.parser()
-DOC_SEARCH.add_argument('search', required=True, location='json', help='Exemplo de corpo: {"search" : "tic"}')
-DOC_LIST = route.parser()
+DOC_SEARCH.add_argument('search', required=True, location='args')
 
+DOC_LIST = route.parser()
 DOC_LIST.add_argument('page',  location='args', type=str)
 DOC_LIST.add_argument('limit',  location='args', type=str)
 
@@ -27,7 +27,7 @@ class TrackList(Resource):
 class TrackList(Resource):
     @route.doc('search')
     @route.expect(DOC_SEARCH)
-    def post(self):
+    def get(self):
         '''Search tracks'''
         from src.handler.tracksHandler import TracksHandler
         return TracksHandler().get_by_like_name_paginate()
@@ -47,4 +47,3 @@ class PlayMp3(Resource):
     def post(self):
         from src.handler.tracksHandler import TracksHandler
         return TracksHandler().send()
-        

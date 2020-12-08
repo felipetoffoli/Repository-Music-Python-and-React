@@ -34,7 +34,7 @@ class TracksHandler:
   
     def get_by_like_name_paginate(self):
         try:
-            playload = request.json
+            playload = request.args
             contract = GetByLikeNameTrackContract()
             if not(contract.validate(playload)):
                 return ResultModel('Problema nos parametros enviados.', False, contract.errors).to_dict(), 406

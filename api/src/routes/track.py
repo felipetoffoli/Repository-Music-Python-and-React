@@ -1,7 +1,4 @@
 from flask_restplus import Namespace, Resource, fields
-from flask import  Response, request
-import os
-
 
 
 route = Namespace('tracks', description='Rota de que lida com as musicas que estão nas pastas de track')
@@ -17,9 +14,6 @@ DTO_INFO_FILE_TRACK = route.model('Track Information', {
     'size': fields.String(required=True, description='Tamanho do arquivo de musica'),
 })
 
-# DTO_SEND_TRACK = route.model('Track Information', {
-# })
-
 
 @route.route('/')
 class TrackList(Resource):
@@ -28,15 +22,6 @@ class TrackList(Resource):
         '''List all tracks'''
         from src.handler.tracksHandler import TracksHandler
         return TracksHandler().get_paginate()
-
-
-@route.route('/<info_file>')
-class TrackInfo(Resource):
-    @route.doc('info_file')
-    @route.marshal_with(DTO_INFO_FILE_TRACK)
-    def get(self, info_file):
-        '''informação da track'''
-        return {'name': 'musica1.mp3', 'size': '18MB', 'time': '01:15'}
 
 
 @route.route("/play/<_id>")

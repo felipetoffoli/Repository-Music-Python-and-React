@@ -1,4 +1,4 @@
-from flask_restplus import Namespace, Resource
+from flask_restplus import Namespace, Resource, cors
 
 
 route = Namespace('tracks', description='Rota de que lida com as musicas que estão nas pastas de track')
@@ -32,9 +32,11 @@ class PlayMp3(Resource):
         return TracksHandler().play(_id)
         
 @route.route("/")
+@route.route("")
 class PlayMp3(Resource):
     @route.doc('send_files')
     @route.expect(DOC_SEND)
+    @cors.crossdomain(origin='*')
     def post(self):
         '''Enviar nova Musica'''
         from src.handler.tracksHandler import TracksHandler

@@ -45,6 +45,7 @@ npm start
 ```
 
 ### Backend
+- Versão do Python `3.7`
 - Com Gerenciador de dependencias `PIPENV`
 
 #### Para instalar
@@ -60,3 +61,4 @@ pipenv install
 pipenv shell
 python main.py
 ```
+### Documentação da `API` em http://localhost:5000

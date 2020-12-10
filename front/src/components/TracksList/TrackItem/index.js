@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import ListItemText from '@material-ui/core/ListItemText';
-import Player from '../../Player';
+import AudioControl from '../AudioControl';
 
 
 const TrackItem = ({ track, isPlay,  onChangePlay = () => {} }) => {
@@ -35,7 +35,7 @@ const TrackItem = ({ track, isPlay,  onChangePlay = () => {} }) => {
                 </ListItemAvatar>
                 <ListItemText primary={track.name} secondary={`${track.filename} - ${track.size}kb`} />
             </ListItem>
-            <Player audioId={track.id} isPlaying={isPlaying} />
+            <AudioControl audioId={track.id} isPlaying={isPlaying} />
         </>
     )
 }

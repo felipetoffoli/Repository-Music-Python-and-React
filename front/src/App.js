@@ -1,12 +1,11 @@
 import React from 'react';
-import { Container } from './styles';
 import TracksList from "./components/TracksList";
 
 const App = () => {
   return (
-    <Container>
+    <div>
       <TracksList />
-    </Container>
+    </div>
   );
 }
 

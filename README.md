@@ -1,4 +1,5 @@
-# Player de Música
+# Repositorio de Música
+Repositorio de musicas, onde pode ser enviadas novas musicas e ouvidas pelo player de audio.
 
 ### Frontend
 

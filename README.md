@@ -1,5 +1,14 @@
-# Repositorio de Música
-Repositorio de musicas, onde pode ser enviadas novas musicas e ouvidas pelo player de audio.
+# Repositorio MP3/Player de Música
+
+## Deploy com Docker Compose
+```
+cd docker
+docker-compose build
+docker-compose up -d
+```
+
+## Deploy com Python e Node
+
 
 ### Frontend
 
@@ -7,8 +16,8 @@ Repositorio de musicas, onde pode ser enviadas novas musicas e ouvidas pelo play
 - Entrar na pasta `front` e executar
 
 ```
+cd front
 npm install
-
 npm start
 ```
 
@@ -20,6 +29,7 @@ npm start
 - Entrar na pasta `api`
 
 ```
+cd api
 pipenv install
 ```
 
@@ -29,4 +39,7 @@ pipenv install
 pipenv shell
 python main.py
 ```
+
 ### Documentação da `API` em http://localhost:5000
+### Acesso ao `frontend` em http://localhost:9090
+

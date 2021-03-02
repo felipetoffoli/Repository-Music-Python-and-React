@@ -1,5 +1,3 @@
-
-
 # Repositorio MP3/Player de Música
 
 ## Deploy com Docker Compose
@@ -10,6 +8,7 @@ docker-compose up -d
 ```
 
 ## Deploy com Python e Node
+
 
 ### Frontend
 
